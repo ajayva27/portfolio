@@ -82,57 +82,22 @@ function App() {
       </nav>
 
       {/* HERO SECTION */}
-      <section className="min-h-screen flex items-center px-6">
-        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16 items-center">
-
+      <section className="min-h-screen pt-40 pb-20 px-6 flex items-center justify-center">
+        <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
+          
+          {/* Profile Photo - Now Centered and Smaller */}
           <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-          >
-            <p className="text-emerald-400 mb-4 text-lg">
-              Python Developer • AI Engineer
-            </p>
-
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-6">
-              Building
-              <span className="gradient-text"> Intelligent </span>
-              Backend & AI Systems
-            </h1>
-            <p className="text-gray-400 text-lg leading-8 mb-8">
-              Passionate Python Developer with strong expertise in backend development,
-              Machine Learning, Deep Learning, Computer Vision, NLP, and scalable API systems.
-            </p>
-
-            <div className="flex gap-4 flex-wrap">
-              <a
-                href="#projects"
-                className="px-8 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 transition"
-              >
-                View Projects
-              </a>
-
-              <a
-                href="/resume.pdf"
-                className="px-8 py-4 rounded-2xl border border-white/20 hover:border-emerald-500 transition"
-              >
-                Download Resume
-              </a>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
+            initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            className="flex justify-center items-center p-4"
+            className="mb-12 relative"
           >
-            <div className="relative w-[300px] h-[300px] md:w-[380px] md:h-[380px]">
+            <div className="relative w-[180px] h-[180px] md:w-[220px] md:h-[220px]">
               {/* Subtle Decorative Background Frame */}
-              <div className="absolute -inset-4 border-2 border-emerald-500/20 rounded-[3rem] -rotate-3"></div>
+              <div className="absolute -inset-3 border-2 border-emerald-500/20 rounded-[2rem] -rotate-3"></div>
               
               {/* Main Image Container */}
-              <div className="w-full h-full relative z-10 overflow-hidden rounded-[2.5rem] border-2 border-white/10 shadow-2xl">
+              <div className="w-full h-full relative z-10 overflow-hidden rounded-[2rem] border-2 border-white/10 shadow-2xl">
                 <img
                   src={profile}
                   alt="AJAY V A"
@@ -140,8 +105,46 @@ function App() {
                 />
               </div>
 
-              {/* Bottom Right Accent */}
-              <div className="absolute -bottom-2 -right-2 w-24 h-24 bg-emerald-500/10 blur-2xl rounded-full z-0"></div>
+              {/* Background Accent */}
+              <div className="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-full z-0"></div>
+            </div>
+          </motion.div>
+
+          {/* Text Content - Centered */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, delay: 0.2 }}
+          >
+            <p className="text-emerald-400 mb-4 text-lg font-medium tracking-wide uppercase">
+              Python Developer • AI Engineer
+            </p>
+
+            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-8">
+              Building
+              <span className="gradient-text"> Intelligent </span>
+              Backend & AI Systems
+            </h1>
+            
+            <p className="text-gray-400 text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
+              Passionate Python Developer with strong expertise in backend development,
+              Machine Learning, Deep Learning, Computer Vision, and scalable API systems.
+            </p>
+
+            <div className="flex gap-4 justify-center flex-wrap">
+              <a
+                href="#projects"
+                className="px-10 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 transition font-semibold shadow-lg shadow-emerald-900/20"
+              >
+                View Projects
+              </a>
+
+              <a
+                href="/resume.pdf"
+                className="px-10 py-4 rounded-2xl border border-white/20 hover:border-emerald-500 transition font-semibold"
+              >
+                Download Resume
+              </a>
             </div>
           </motion.div>
         </div>
