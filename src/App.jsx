@@ -1,394 +1,403 @@
+import { useState } from 'react'
 import { motion } from 'framer-motion'
 import {
-  Mail,
-  Phone,
-  ExternalLink,
-  Brain,
+  ArrowDownToLine,
+  ArrowRight,
+  BrainCircuit,
+  BriefcaseBusiness,
+  CheckCircle2,
+  Code2,
   Database,
+  ExternalLink,
+  GraduationCap,
+  Mail,
+  MapPin,
+  Menu,
+  Phone,
   Server,
-  Code,
+  Sparkles,
+  X,
 } from 'lucide-react'
-import { FaGithub as Github, FaLinkedin as Linkedin } from 'react-icons/fa'
 import {
-  SiPython, SiDjango, SiFlask, SiOpencv, SiScikitlearn,
-  SiPostgresql, SiPandas, SiNumpy, SiGit, SiPostman,
-  SiStreamlit, SiFrappe
+  FaGithub,
+  FaLinkedinIn,
+} from 'react-icons/fa'
+import {
+  SiPython,
+  SiFastapi,
+  SiDjango,
+  SiFlask,
+  SiFrappe,
+  SiPytorch,
+  SiTensorflow,
+  SiOpencv,
+  SiMongodb,
+  SiMysql,
+  SiGit,
+  SiLangchain,
 } from 'react-icons/si'
-import { GiArtificialIntelligence, GiBrain, GiEyeTarget, GiTalk } from 'react-icons/gi'
+import profile from './assets/profile.png'
 
-import profile from './assets/profile.jpg'
+const skills = [
+  { name: 'Python', icon: SiPython, group: 'Backend' },
+  { name: 'FastAPI', icon: SiFastapi, group: 'Backend' },
+  { name: 'Django', icon: SiDjango, group: 'Backend' },
+  { name: 'Frappe', icon: SiFrappe, group: 'Backend' },
+  { name: 'Flask', icon: SiFlask, group: 'Backend' },
+  { name: 'PyTorch', icon: SiPytorch, group: 'AI / ML' },
+  { name: 'TensorFlow', icon: SiTensorflow, group: 'AI / ML' },
+  { name: 'OpenCV', icon: SiOpencv, group: 'AI / ML' },
+  { name: 'MongoDB', icon: SiMongodb, group: 'Data' },
+  { name: 'MySQL', icon: SiMysql, group: 'Data' },
+  { name: 'Git', icon: SiGit, group: 'Tools' },
+  { name: 'LangChain', icon: SiLangchain, group: 'AI / ML' },
+]
+
+const services = [
+  {
+    title: 'Backend Development',
+    description: 'Reliable APIs, service integrations, and maintainable backend systems.',
+    icon: Server,
+  },
+  {
+    title: 'AI & LLM Workflows',
+    description: 'LLM-powered applications, workflow orchestration, and intelligent automation.',
+    icon: BrainCircuit,
+  },
+  {
+    title: 'Machine Learning',
+    description: 'Practical ML, computer vision, OCR, and document processing solutions.',
+    icon: Sparkles,
+  },
+  {
+    title: 'Data & Integrations',
+    description: 'Database design, event-driven pipelines, and third-party integrations.',
+    icon: Database,
+  },
+]
+
+const projects = [
+  {
+    title: 'Kruit AI',
+    category: 'AI RECRUITMENT PLATFORM',
+    description: 'AI-powered recruitment workflows for resume parsing, candidate screening, bulk imports, and automated resume requests.',
+    tech: ['FastAPI', 'LangGraph', 'MongoDB', 'Google Cloud'],
+    icon: BrainCircuit,
+    theme: 'project-teal',
+  },
+  {
+    title: 'Ship Design Approval System',
+    category: 'BACKEND PLATFORM',
+    description: 'Production backend for ship-design approvals with role-based access, multi-stage workflows, status tracking, and reporting.',
+    tech: ['Python', 'Frappe', 'REST APIs', 'Pandas'],
+    icon: BriefcaseBusiness,
+    theme: 'project-blue',
+  },
+  {
+    title: 'Face Authentication',
+    category: 'COMPUTER VISION',
+    description: 'Face authentication supporting 1:N recognition and 1:1 verification with a modular detection, embedding, and matching pipeline.',
+    tech: ['Python', 'FAISS', 'Computer Vision', 'Streamlit'],
+    icon: CheckCircle2,
+    theme: 'project-slate',
+  },
+  {
+    title: 'Multimodal Document AI',
+    category: 'OCR & DOCUMENT AI',
+    description: 'Document classification combining image and text processing with OCR, preprocessing, confidence scoring, and real-time results.',
+    tech: ['Deep Learning', 'EasyOCR', 'NLP', 'Streamlit'],
+    icon: Code2,
+    theme: 'project-cyan',
+  },
+]
+
+const experiences = [
+  {
+    role: 'AI Engineering Intern',
+    company: 'Kruit AI',
+    period: 'Jul 2026 – Sept 2026',
+    detail: 'AI recruitment workflows and resume intelligence',
+  },
+  {
+    role: 'Python Developer',
+    company: 'Faircode Infotech',
+    period: 'Oct 2024 – Jan 2026',
+    detail: 'Production backend systems and approval workflows',
+  },
+  {
+    role: 'Machine Learning & AI Intern',
+    company: 'Gofreelab Technologies',
+    period: 'Jun 2024 – Sept 2024',
+    detail: 'Machine learning, computer vision, and NLP projects',
+  },
+]
+
+const education = [
+  {
+    title: 'B.Tech in Computer Science & Engineering',
+    school: 'Thejus Engineering College, Thrissur',
+    period: '2019 – 2023',
+  },
+]
+
+const certifications = [
+  { title: 'Microsoft Certified: Azure AI Fundamentals (AI-900)', issuer: 'Microsoft', year: '2025' },
+  { title: 'Python and Data Science with AI', issuer: 'ExpertzLab Technologies', year: '2023 – 2024' },
+]
+
+function SectionHeading({ eyebrow, title, accent, description, action }) {
+  return (
+    <div className="section-heading">
+      <div>
+        {eyebrow && <p className="eyebrow">{eyebrow}</p>}
+        <h2>{title} {accent ? <span>{accent}</span> : null}</h2>
+        {description && <p className="section-description">{description}</p>}
+      </div>
+      {action}
+    </div>
+  )
+}
 
 function App() {
-  const skills = [
-    { name: 'Python', icon: SiPython },
-    { name: 'Django', icon: SiDjango },
-    { name: 'Frappe', icon: SiFrappe },
-    { name: 'Flask', icon: SiFlask },
-    { name: 'Machine Learning', icon: GiArtificialIntelligence },
-    { name: 'Deep Learning', icon: GiBrain },
-    { name: 'Computer Vision', icon: GiEyeTarget },
-    { name: 'NLP', icon: GiTalk },
-    { name: 'OpenCV', icon: SiOpencv },
-    { name: 'scikit-learn', icon: SiScikitlearn },
-    { name: 'REST APIs', icon: SiPostman },
-    { name: 'SQL', icon: SiPostgresql },
-    { name: 'Pandas', icon: SiPandas },
-    { name: 'NumPy', icon: SiNumpy },
-    { name: 'Git', icon: SiGit },
-    { name: 'Postman', icon: SiPostman },
-    { name: 'Streamlit', icon: SiStreamlit },
+  const [menuOpen, setMenuOpen] = useState(false)
+
+  const navItems = [
+    ['Home', '#home'],
+    ['About', '#about'],
+    ['Skills', '#skills'],
+    ['Projects', '#projects'],
+    ['Experience', '#experience'],
   ]
 
-  const projects = [
-    {
-      title: 'Face Authentication System',
-      desc: 'Built a real-time face authentication system using FaceNet, MTCNN, and FAISS with webcam verification and scalable similarity search.',
-      tech: 'Python • FaceNet • MTCNN • FAISS • Streamlit',
-    },
-    {
-      title: 'Ship Building Digitalization Platform',
-      desc: 'Developed scalable backend workflows, multi-stage approval systems, analytics dashboards, and automated reporting pipelines.',
-      tech: 'Python • Django • Frappe • REST APIs • Pandas',
-    },
-    {
-      title: 'Multimodal Document Classification',
-      desc: 'Created a document classification system using ResNet and DistilBERT with OCR integration and 92% accuracy.',
-      tech: 'Deep Learning • OCR • NLP • ResNet • DistilBERT',
-    },
-    {
-      title: 'Driver Drowsiness Detection',
-      desc: 'Developed a safety monitoring system using Computer Vision and Arduino to detect fatigue and trigger real-time alerts.',
-      tech: 'OpenCV • ML • Python • Arduino',
-    },
-  ]
   return (
-    <div className="bg-[#080808] text-white overflow-hidden">
+    <div className="portfolio">
+      <header className="site-header">
+        <nav className="navbar container" aria-label="Main navigation">
+          <a className="brand" href="#home" aria-label="Ajay V A home">
+            <span className="brand-name">AJAY V A<span className="brand-dot">.</span></span>
+            <span className="brand-subtitle">Python Developer · AI/ML Engineer</span>
+          </a>
 
-      {/* NAVBAR */}
-      <nav className="fixed top-0 w-full z-50 bg-black/30 backdrop-blur-lg border-b border-white/10">
-        <div className="max-w-7xl mx-auto flex justify-between items-center px-6 py-4">
-          <h1 className="text-2xl font-bold gradient-text">
-            AJAY V A
-          </h1>
+          <button className="mobile-menu-button" type="button" onClick={() => setMenuOpen(!menuOpen)} aria-label={menuOpen ? 'Close menu' : 'Open menu'}>
+            {menuOpen ? <X size={21} /> : <Menu size={21} />}
+          </button>
 
-          <div className="hidden md:flex gap-8 text-sm">
-            <a href="#about" className="hover:text-emerald-400">About</a>
-            <a href="#skills" className="hover:text-emerald-400">Skills</a>
-            <a href="#projects" className="hover:text-emerald-400">Projects</a>
-            <a href='#experience' className='hover:text-emerald-400'>Experience</a>
-            <a href="#contact" className="hover:text-emerald-400">Contact</a>
-          </div>
-        </div>
-      </nav>
-
-      {/* HERO SECTION */}
-      <section className="min-h-screen pt-40 pb-20 px-6 flex items-center justify-center">
-        <div className="max-w-4xl mx-auto flex flex-col items-center text-center">
-          
-          {/* Profile Photo - Now Centered and Smaller */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8 }}
-            className="mb-12 relative"
-          >
-            <div className="relative w-[180px] h-[180px] md:w-[220px] md:h-[220px]">
-              {/* Subtle Decorative Background Frame */}
-              <div className="absolute -inset-3 border-2 border-emerald-500/20 rounded-[2rem] -rotate-3"></div>
-              
-              {/* Main Image Container */}
-              <div className="w-full h-full relative z-10 overflow-hidden rounded-[2rem] border-2 border-white/10 shadow-2xl">
-                <img
-                  src={profile}
-                  alt="AJAY V A"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-
-              {/* Background Accent */}
-              <div className="absolute inset-0 bg-emerald-500/10 blur-3xl rounded-full z-0"></div>
-            </div>
-          </motion.div>
-
-          {/* Text Content - Centered */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, delay: 0.2 }}
-          >
-            <p className="text-emerald-400 mb-4 text-lg font-medium tracking-wide uppercase">
-              Python Developer • AI Engineer
-            </p>
-
-            <h1 className="text-5xl md:text-7xl font-bold leading-tight mb-8">
-              Building
-              <span className="gradient-text"> Intelligent </span>
-              Backend & AI Systems
-            </h1>
-            
-            <p className="text-gray-400 text-lg md:text-xl leading-relaxed mb-10 max-w-2xl mx-auto">
-              Passionate Python Developer with strong expertise in backend development,
-              Machine Learning, Deep Learning, Computer Vision, and scalable API systems.
-            </p>
-
-            <div className="flex gap-4 justify-center flex-wrap">
-              <a
-                href="#projects"
-                className="px-10 py-4 rounded-2xl bg-emerald-600 hover:bg-emerald-700 transition font-semibold shadow-lg shadow-emerald-900/20"
-              >
-                View Projects
-              </a>
-
-              <a
-                href="/resume.pdf"
-                className="px-10 py-4 rounded-2xl border border-white/20 hover:border-emerald-500 transition font-semibold"
-              >
-                Download Resume
-              </a>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ABOUT */}
-      <section id="about" className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-          <motion.h2
-            initial={{ opacity: 0, y: 40 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7 }}
-            className="text-4xl font-bold mb-12 gradient-text"
-          >
-            About Me
-          </motion.h2>
-
-          <div className="grid md:grid-cols-3 gap-8">
-
-            <div className="glass p-8 rounded-3xl">
-              <Brain size={40} className="text-emerald-400 mb-4" />
-              <h3 className="text-2xl font-semibold mb-4">AI & ML</h3>
-              <p className="text-gray-400 leading-7">
-                Experienced in Deep Learning, Computer Vision, NLP,
-                and building production-ready ML pipelines.
-              </p>
-            </div>
-            <div className="glass p-8 rounded-3xl">
-              <Server size={40} className="text-blue-400 mb-4" />
-              <h3 className="text-2xl font-semibold mb-4">Backend Systems</h3>
-              <p className="text-gray-400 leading-7">
-                Skilled in scalable backend architecture, Django,
-                Frappe, workflow systems, and REST API development.
-              </p>
-            </div>
-
-            <div className="glass p-8 rounded-3xl">
-              <Database size={40} className="text-teal-400 mb-4" />
-              <h3 className="text-2xl font-semibold mb-4">Data & Analytics</h3>
-              <p className="text-gray-400 leading-7">
-                Strong experience in analytics dashboards,
-                data processing, ORM optimization, and reporting systems.
-              </p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SKILLS */}
-      <section id="skills" className="py-24 px-6 bg-[#0f0f0f]">
-        <div className="max-w-6xl mx-auto">
-
-          <h2 className="text-4xl font-bold mb-14 gradient-text">
-            Skills & Technologies
-          </h2>
-
-          <div className="flex flex-wrap gap-4">
-            {skills.map((skill, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ scale: 1.08 }}
-                className="px-6 py-3 rounded-2xl glass text-gray-200 flex items-center gap-3 hover:border-emerald-500 transition"
-              >
-                <skill.icon className="text-emerald-400" />
-                {skill.name}
-              </motion.div>
-            ))}    </div>
-        </div>
-      </section>
-
-      {/* EXPERIENCE */}
-      <section id='experience' className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
-
-          <h2 className="text-4xl font-bold mb-14 gradient-text">
-            Experience
-          </h2>
-
-          <div className="space-y-8">
-
-            <div className="glass p-8 rounded-3xl">
-              <div className="flex justify-between flex-wrap gap-4 mb-4">
-                <h3 className="text-2xl font-semibold">
-                  Python Developer — Faircode Infotech
-                </h3>
-
-                <p className="text-emerald-400">
-                  Oct 2024 – Jan 2026
-                </p>
-              </div>
-
-              <ul className="text-gray-400 leading-8 list-disc pl-6">
-                <li>Developed scalable REST APIs and workflow systems.</li>
-                <li>Built analytics dashboards and automated reporting modules.</li>
-                <li>Optimized ORM queries and improved backend performance.</li>
-                <li>Implemented multi-stage approval pipelines.</li>
-              </ul>
-            </div>
-
-            <div className="glass p-8 rounded-3xl">
-              <div className="flex justify-between flex-wrap gap-4 mb-4">
-                <h3 className="text-2xl font-semibold">
-                  ML & AI Intern — Gofreelab Technologies
-                </h3>
-                <p className="text-blue-400">
-                  Jun 2024 – Sept 2024
-                </p>
-              </div>
-
-              <ul className="text-gray-400 leading-8 list-disc pl-6">
-                <li>Developed Machine Learning and Deep Learning systems.</li>
-                <li>Worked on Computer Vision and NLP projects.</li>
-                <li>Built scalable and modular AI workflows.</li>
-                <li>Performed dataset curation and model evaluation.</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-      {/* PROJECTS */}
-      <section id="projects" className="py-24 px-6 bg-[#0f0f0f]">
-        <div className="max-w-7xl mx-auto">
-
-          <h2 className="text-4xl font-bold mb-16 gradient-text">
-            Featured Projects
-          </h2>
-
-          <div className="grid md:grid-cols-2 gap-10">
-
-            {projects.map((project, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -10 }}
-                className="glass p-8 rounded-3xl border border-white/10"
-              >
-                <div className="flex items-center justify-between mb-6">
-                  <Code className="text-emerald-400" size={32} />
-
-                  <div className="flex gap-4">
-                    {/* <Github className="cursor-pointer hover:text-emerald-400" />
-                    <ExternalLink className="cursor-pointer hover:text-blue-400" /> */}
-                  </div>
-                </div>
-
-                <h3 className="text-2xl font-semibold mb-4">
-                  {project.title}
-                </h3>
-
-                <p className="text-gray-400 leading-8 mb-6">
-                  {project.desc}
-                </p>
-
-                <div className="text-sm text-emerald-400">
-                  {project.tech}
-                </div>
-              </motion.div>
+          <div className={`nav-links ${menuOpen ? 'nav-links-open' : ''}`}>
+            {navItems.map(([label, href]) => (
+              <a key={label} href={href} onClick={() => setMenuOpen(false)}>{label}</a>
             ))}
           </div>
-        </div></section>
+          <a className="nav-cta" href="#connect">Let's Connect <ArrowRight size={14} /></a>
+        </nav>
+      </header>
 
-      {/* CERTIFICATIONS */}
-      <section className="py-24 px-6">
-        <div className="max-w-6xl mx-auto">
+      <main>
+        <section className="hero" id="home">
+          <div className="hero-pattern pattern-left" aria-hidden="true" />
+          <div className="hero-pattern pattern-right" aria-hidden="true" />
+          <div className="container hero-layout">
+            <motion.div className="hero-photo" initial={{ opacity: 0, x: -24 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.65 }}>
+              <div className="photo-accent" />
+              <img src={profile} alt="Portrait of Ajay V A" />
+              <div className="photo-caption"><span className="caption-dot" /> Open to opportunities</div>
+            </motion.div>
 
-          <h2 className="text-4xl font-bold mb-14 gradient-text">
-            Certifications
-          </h2>
+            <motion.div className="hero-copy" initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.1 }}>
+              <p className="eyebrow hero-eyebrow">Hello, I'm</p>
+              <h1>AJAY V A</h1>
+              <h2>Python Developer <span>&amp; AI/ML Engineer</span></h2>
+              <p className="hero-intro">Building intelligent things with code.</p>
+              <p className="hero-description">I build backend systems and AI-powered applications where Python engineering meets intelligent workflows, LLMs, and Machine Learning.</p>
+              <div className="hero-actions">
+                <a className="button button-primary" href="#projects">View My Work <ArrowRight size={16} /></a>
+                <a className="button button-outline" href="/Ajay_V_A_Resume.pdf" download>Download CV <ArrowDownToLine size={15} /></a>
+              </div>
+              <div className="social-rail" aria-label="Social profiles">
+                <span>FOLLOW ME</span>
+                <a href="https://www.linkedin.com/in/Ajay-va" target="_blank" rel="noreferrer" aria-label="LinkedIn"><FaLinkedinIn /></a>
+                <a href="https://github.com/ajayva27" target="_blank" rel="noreferrer" aria-label="GitHub"><FaGithub /></a>
+                <a href="mailto:ajayvanil27@gmail.com" aria-label="Email"><Mail size={17} /></a>
+                <a href="tel:+971562124850" aria-label="Phone"><Phone size={17} /></a>
+              </div>
+            </motion.div>
+          </div>
+        </section>
 
-          <div className="grid md:grid-cols-2 gap-8">
+        <section className="about-section" id="about">
+          <div className="container about-layout">
+            <div className="about-copy">
+              <p className="eyebrow">A little about me</p>
+              <h2>Building useful things with <span>Python & AI.</span></h2>
+              <p>Python Developer with nearly 2 years of experience building production backend systems and AI-powered applications. I enjoy turning complex problems into practical software, from dependable APIs to intelligent workflows.</p>
+              <a className="text-link" href="#experience">Explore my experience <ArrowRight size={15} /></a>
+            </div>
+            <div className="about-facts">
+              <div className="fact-card"><span className="fact-icon"><Code2 size={20} /></span><strong>Role</strong><span>Python Developer</span></div>
+              <div className="fact-card"><span className="fact-icon"><BriefcaseBusiness size={20} /></span><strong>Focus</strong><span>Backend · AI/ML</span></div>
+              <div className="fact-card"><span className="fact-icon"><Mail size={20} /></span><strong>Email</strong><span>ajayvanil27@gmail.com</span></div>
+              <div className="fact-card"><span className="fact-icon"><MapPin size={20} /></span><strong>Location</strong><span>Abu Dhabi, UAE</span></div>
+            </div>
+          </div>
+        </section>
 
-            <div className="glass p-8 rounded-3xl">
-              <h3 className="text-2xl font-semibold mb-4">
-                Azure AI Fundamentals (AI-900)
-              </h3>
-
-              <p className="text-gray-400">
-                Microsoft Certified — 2025
-              </p>
+        <section className="skills-services section" id="skills">
+          <div className="container skills-services-grid">
+            <div className="skills-panel">
+              <SectionHeading eyebrow="My toolkit" title="Skills &" accent="Expertise" description="Tools and technologies I use to build production software and intelligent applications." />
+              <div className="tools-grid">
+                {skills.map(({ name, icon: Icon, group }) => (
+                  <div className="tool-card" key={name}>
+                    <span className="tool-icon"><Icon /></span>
+                    <div className="tool-info">
+                      <strong>{name}</strong>
+                      <span className="tool-group">{group}</span>
+                    </div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            <div className="glass p-8 rounded-3xl">
-              <h3 className="text-2xl font-semibold mb-4">
-                Python and Data Science with AI
-              </h3>
+            <div className="services-panel" id="services">
+              <SectionHeading eyebrow="How I can help" title="Services I" accent="Offer" description="Practical engineering support from backend APIs to AI-powered features." />
+              <div className="services-grid">
+                {services.map(({ title, description, icon: Icon }, index) => (
+                  <motion.article className="service-card" key={title} initial={{ opacity: 0, y: 14 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.06 }}>
+                    <span className="service-icon"><Icon size={22} /></span>
+                    <h3>{title}</h3>
+                    <p>{description}</p>
+                  </motion.article>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
 
-              <p className="text-gray-400">
-                ExpertzLab Technologies
-              </p>
+        <section className="projects-section section" id="projects">
+          <div className="container">
+            <SectionHeading
+              eyebrow="Selected work"
+              title="Featured"
+              accent="Projects"
+              description="A selection of backend, AI, and machine learning projects I've worked on."
+              action={<a className="text-link section-action" href="https://github.com/ajayva27" target="_blank" rel="noreferrer">View GitHub <ExternalLink size={14} /></a>}
+            />
+            <div className="projects-grid">
+              {projects.map(({ title, category, description, tech, icon: Icon, theme }, index) => (
+                <motion.article className="project-card" key={title} initial={{ opacity: 0, y: 18 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: index * 0.07 }}>
+                  <div className={`project-preview ${theme}`}>
+                    <div className="preview-topline"><span /><span /><span /></div>
+                    <div className="preview-content"><div className="preview-symbol"><Icon size={29} /></div><div className="preview-lines"><i /><i /><i /></div></div>
+                    <span className="preview-label">{category}</span>
+                  </div>
+                  <div className="project-body">
+                    <p className="project-category">{category}</p>
+                    <h3>{title}</h3>
+                    <p className="project-description">{description}</p>
+                    <div className="project-tags">{tech.map((item) => <span key={item}>{item}</span>)}</div>
+                  </div>
+                </motion.article>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="career-section section" id="experience">
+          <div className="container career-grid">
+            <div className="career-column">
+              <SectionHeading eyebrow="My journey" title="Work" accent="Experience" />
+              <div className="timeline">
+                {experiences.map((item) => (
+                  <article className="timeline-item" key={item.company}>
+                    <span className="timeline-marker" />
+                    <p className="timeline-period">{item.period}</p>
+                    <h3>{item.role}</h3>
+                    <h4>{item.company}</h4>
+                    <p>{item.detail}</p>
+                  </article>
+                ))}
+              </div>
+            </div>
+
+            <div className="career-column education-column" id="education">
+              <SectionHeading eyebrow="Academic background" title="Education" />
+              {education.map((item) => (
+                <article className="education-card" key={item.title}>
+                  <span className="education-icon"><GraduationCap size={22} /></span>
+                  <p className="timeline-period">{item.period}</p>
+                  <h3>{item.title}</h3>
+                  <p>{item.school}</p>
+                </article>
+              ))}
+              <div className="certification-mini">
+                <h3>Certifications & Learning</h3>
+                {certifications.map((item) => (
+                  <div className="certification-row" key={item.title}>
+                    <span className="certification-check"><CheckCircle2 size={16} /></span>
+                    <div><strong>{item.title}</strong><span>{item.issuer} · {item.year}</span></div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="career-column strengths-column">
+              <SectionHeading eyebrow="What I bring" title="Core" accent="Strengths" />
+              <div className="strength-card">
+                <span className="strength-icon"><Code2 size={21} /></span>
+                <div><h3>Backend Engineering</h3><p>Maintainable APIs, workflow logic, and service integrations.</p></div>
+              </div>
+              <div className="strength-card">
+                <span className="strength-icon"><BrainCircuit size={21} /></span>
+                <div><h3>Applied AI</h3><p>LLM orchestration, resume processing, NLP, and computer vision.</p></div>
+              </div>
+              <div className="strength-card">
+                <span className="strength-icon"><Database size={21} /></span>
+                <div><h3>Reliable Systems</h3><p>Data pipelines, event-driven workflows, testing, and debugging.</p></div>
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      <footer className="site-footer" id="connect">
+        <div className="container footer-main">
+          <a className="brand footer-brand" href="#home">
+            <span className="brand-name">AJAY V A<span className="brand-dot">.</span></span>
+            <span className="brand-subtitle">Python Developer · AI/ML Engineer</span>
+          </a>
+          <div className="footer-links">
+            <strong>Quick Links</strong>
+            {navItems.map(([label, href]) => <a href={href} key={label}>{label}</a>)}
+          </div>
+          <div className="footer-links">
+            <strong>Focus Areas</strong>
+            <a href="#services">Backend Development</a>
+            <a href="#services">AI & LLM Workflows</a>
+            <a href="#services">Machine Learning</a>
+            <a href="#projects">Featured Projects</a>
+          </div>
+          <div className="footer-connect">
+            <strong>Let's connect</strong>
+            <p>Open to interesting engineering opportunities, high-impact projects, and collaborations.</p>
+            <div className="footer-contact-links">
+              <a className="footer-contact-link" href="mailto:ajayvanil27@gmail.com">
+                <Mail size={14} /> ajayvanil27@gmail.com
+              </a>
+              <a className="footer-contact-link" href="tel:+971562124850">
+                <Phone size={14} /> +971 0562124850
+              </a>
+            </div>
+            <div className="footer-social-row">
+              <a className="footer-social-btn" href="https://github.com/ajayva27" target="_blank" rel="noreferrer" aria-label="GitHub"><FaGithub /></a>
+              <a className="footer-social-btn" href="https://www.linkedin.com/in/Ajay-va" target="_blank" rel="noreferrer" aria-label="LinkedIn"><FaLinkedinIn /></a>
+              <a className="footer-social-btn" href="mailto:ajayvanil27@gmail.com" aria-label="Email"><Mail size={14} /></a>
+              <a className="footer-social-btn" href="tel:+971562124850" aria-label="Call +971 0562124850"><Phone size={14} /></a>
             </div>
           </div>
         </div>
-      </section>  {/* CONTACT */}
-      <section id="contact" className="py-24 px-6 bg-[#0f0f0f]">
-        <div className="max-w-5xl mx-auto text-center">
-
-          <h2 className="text-5xl font-bold mb-8 gradient-text">
-            Let’s Connect
-          </h2>
-
-          <p className="text-gray-400 text-lg mb-12 leading-8">
-            Interested in AI systems, backend development,
-            Machine Learning, or collaboration opportunities?
-            Let’s build something impactful.
-          </p>
-
-          <div className="flex justify-center gap-8 flex-wrap">
-
-            <a
-              href="mailto:ajayvanil27@gmail.com"
-              className="glass px-8 py-5 rounded-2xl flex items-center gap-3 hover:border-emerald-500"
-            >
-              <Mail />
-              Email
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/Ajay-va"
-              target="_blank"
-              className="glass px-8 py-5 rounded-2xl flex items-center gap-3 hover:border-blue-500"
-            >
-              <Linkedin />
-              LinkedIn
-            </a>
-
-            <a
-              href="https://github.com/ajayva27/"
-              target="_blank"
-              className="glass px-8 py-5 rounded-2xl flex items-center gap-3 hover:border-teal-500"
-            >
-              <Github />
-              GitHub
-            </a>
-
-            <div className="glass px-8 py-5 rounded-2xl flex items-center gap-3">
-              <Phone />
-              +91 8086852424
-            </div>
-          </div>
+        <div className="container footer-bottom">
+          <span>© {new Date().getFullYear()} Ajay V A. All rights reserved.</span>
+          <a href="#home">Back to top ↑</a>
         </div>
-      </section>
-
-      {/* FOOTER */}
-      <footer className="py-8 text-center text-gray-500 border-t border-white/10">
-        © 2026 AJAY V A • AI Engineer & Python Developer
       </footer>
     </div>
   )
