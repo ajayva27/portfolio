@@ -37,6 +37,7 @@ import {
   SiLangchain,
 } from 'react-icons/si'
 import profile from './assets/profile.png'
+import resumePdf from './assets/Ajay v a.pdf'
 
 const skills = [
   { name: 'Python', icon: SiPython, group: 'Backend' },
@@ -210,7 +211,7 @@ function App() {
               <p className="hero-description">I build backend systems and AI-powered applications where Python engineering meets intelligent workflows, LLMs, and Machine Learning.</p>
               <div className="hero-actions">
                 <a className="button button-primary" href="#projects">View My Work <ArrowRight size={16} /></a>
-                <a className="button button-outline" href={`${import.meta.env.BASE_URL}Ajay_V_A_Resume.pdf`} download="Ajay_V_A_Resume.pdf">Download CV <ArrowDownToLine size={15} /></a>
+                <a className="button button-outline" href={resumePdf} download="Ajay_V_A_Resume.pdf">Download CV <ArrowDownToLine size={15} /></a>
               </div>
               <div className="social-rail" aria-label="Social profiles">
                 <span>FOLLOW ME</span>
